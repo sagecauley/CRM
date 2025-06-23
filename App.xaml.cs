@@ -5,11 +5,22 @@
         public App()
         {
             InitializeComponent();
+            CheckLoginStatus();
         }
 
-        protected override Window CreateWindow(IActivationState? activationState)
+        private async void CheckLoginStatus()
         {
-            return new Window(new AppShell());
+            var authService = new FirebaseAuthService();
+            var token = await authService.GetValidIdTokenAsync();
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                MainPage = new AppShell(); // Shell starts and navigates to MainPage
+            }
+            else
+            {
+                MainPage = new LoginPage(); // Standalone login page
+            }
         }
     }
 }

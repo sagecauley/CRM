@@ -12,7 +12,10 @@
                 HeightRequest="185"
                 Aspect="AspectFit"
                 SemanticProperties.Description="dot net bot in a hovercraft number nine" />
-
+            <Button
+                x:Name="LogoutButton"
+                Text="Logout"
+                Clicked="OnLogoutClicked"/>
             <Label
                 Text="Hello, World!"
                 Style="{StaticResource Headline}"

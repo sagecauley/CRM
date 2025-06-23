@@ -6,9 +6,31 @@
     xmlns:local="clr-namespace:CRM"
     Title="CRM">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <TabBar>
+        <ShellContent
+            Title="Home"
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Route="MainPage"
+            Icon="home.png."
+            />
+        <ShellContent
+            Title="Calendar"
+            ContentTemplate="{DataTemplate local:CalendarPage}"
+            Route="CalendarPage"
+            Icon="calendar.png"
+            />
+        <ShellContent
+            Title="Jobs"
+            ContentTemplate="{DataTemplate local:JobsPage}"
+            Route="JobsPage"
+            Icon="jobs.png"
+            />
+        <ShellContent
+            Title="Customers"
+            ContentTemplate="{DataTemplate local:CustomerPage}"
+            Route="CustomerPage"
+            Icon="customer.png"
+            />
+    </TabBar>
 
 </Shell>

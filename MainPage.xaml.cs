@@ -20,5 +20,20 @@
 
             SemanticScreenReader.Announce(CounterBtn.Text);
         }
+
+        private async void OnLogoutClicked(object? sender, EventArgs e)
+        {
+            FirebaseAuthService authService = new FirebaseAuthService();
+            bool success = await authService.LogoutAsync();
+
+            if (success)
+            {
+                Application.Current.MainPage = new LoginPage();
+            }
+            else
+            {
+                await DisplayAlert("Error", "Logout failed. Please try again.", "OK");
+            }
+        }
     }
 }
