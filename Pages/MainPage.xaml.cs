@@ -3,10 +3,13 @@
     public partial class MainPage : ContentPage
     {
         int count = 0;
-
-        public MainPage()
+        private readonly LoginPage _loginPage;
+        private Controller controller;
+        public MainPage(LoginPage loginPage, Controller c)
         {
             InitializeComponent();
+            _loginPage = loginPage;
+            controller = c;
         }
 
         private void OnCounterClicked(object? sender, EventArgs e)
@@ -23,12 +26,11 @@
 
         private async void OnLogoutClicked(object? sender, EventArgs e)
         {
-            FirebaseAuthService authService = new FirebaseAuthService();
-            bool success = await authService.LogoutAsync();
+            bool success = await controller.OnLogout();
 
             if (success)
             {
-                Application.Current.MainPage = new LoginPage();
+                Application.Current.MainPage = _loginPage;
             }
             else
             {

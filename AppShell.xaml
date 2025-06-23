@@ -11,7 +11,7 @@
             Title="Home"
             ContentTemplate="{DataTemplate local:MainPage}"
             Route="MainPage"
-            Icon="home.png."
+            Icon="home.png"
             />
         <ShellContent
             Title="Calendar"

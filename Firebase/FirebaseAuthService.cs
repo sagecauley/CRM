@@ -5,9 +5,10 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace CRM
+namespace CRM.Firebase
 {
     public class FirebaseAuthService
     {
@@ -72,8 +73,8 @@ namespace CRM
 
             var requestBody = new
             {
-                email = email,
-                password = password,
+                email,
+                password,
                 returnSecureToken = true
             };
 
@@ -107,8 +108,8 @@ namespace CRM
 
             var requestBody = new
             {
-                email = email,
-                password = password,
+                email,
+                password,
                 returnSecureToken = true
             };
 
@@ -149,8 +150,11 @@ namespace CRM
 
         private class FirebaseRefreshResponse
         {
+            [JsonPropertyName("id_token")]
             public string idToken { get; set; }
+            [JsonPropertyName("refresh_token")]
             public string refreshToken { get; set; }
+            [JsonPropertyName("expires_in")]
             public string expiresIn { get; set; }
         }
     }

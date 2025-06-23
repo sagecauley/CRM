@@ -2,9 +2,11 @@ namespace CRM;
 
 public partial class LoginPage : ContentPage
 {
-	public LoginPage()
+    Controller c;
+	public LoginPage(Controller c)
 	{
 		InitializeComponent();
+        this.c = c;
 	}
 
 	private async void OnLoginClicked(object sender, EventArgs e)
@@ -20,9 +22,7 @@ public partial class LoginPage : ContentPage
             string username = usernameEntry.Text.Trim();
             string password = passwordEntry.Text.Trim();
 
-            var authService = new FirebaseAuthService();
-
-            bool success = await authService.LoginAsync(username, password);
+            bool success = await c.OnLogin(username, password);
 
             if (success)
             {
@@ -53,8 +53,7 @@ public partial class LoginPage : ContentPage
             string username = usernameEntry.Text.Trim();
             string password = passwordEntry.Text.Trim();
 
-            var authService = new FirebaseAuthService();
-            bool created = await authService.SignUpAsync(username, password);
+            bool created = await c.OnCreateAccount(username, password);
 
             if (created)
             {

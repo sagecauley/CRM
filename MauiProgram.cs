@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CRM.Firebase;
+using Microsoft.Extensions.Logging;
 
 namespace CRM
 {
@@ -7,6 +8,15 @@ namespace CRM
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
+
+            builder.Services.AddTransient<FirebaseAuthService>();
+            builder.Services.AddTransient<Controller>();
+            builder.Services.AddTransient<LoginPage>();
+            builder.Services.AddTransient<MainPage>();
+            builder.Services.AddTransient<CalendarPage>();
+            builder.Services.AddTransient<JobsPage>();
+            builder.Services.AddTransient<CustomerPage>();
+
             builder
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
