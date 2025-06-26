@@ -3,10 +3,45 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CRM.CustomerPage"
              Title="CustomerPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <Grid RowDefinitions="*">
+        <CollectionView x:Name="Customers"
+                        Grid.Row="0"
+                        SelectionMode="None"
+                        VerticalOptions="FillAndExpand"
+                        HorizontalOptions="FillAndExpand">
+            <CollectionView.ItemTemplate>
+                
+                <DataTemplate>
+                    <Frame Margin="5"
+                   Padding="10"
+                   BorderColor="LightGray"
+                   CornerRadius="8"
+                   BackgroundColor="White">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer
+                        Tapped="OnCustomerTapped"
+                        CommandParameter="{Binding .}" />
+                        </Frame.GestureRecognizers>
+                        <StackLayout>
+                            <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="16" TextColor="Black"/>
+                            <Label Text="{Binding Email}" FontSize="14" TextColor="Gray"/>
+                            <Label Text="{Binding Phone}" FontSize="14" TextColor="Gray"/>
+                        </StackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Text="Add"
+                Clicked="AddCustomerButtonClicked"
+                WidthRequest="60"
+                HeightRequest="60"
+                CornerRadius="30"
+                BackgroundColor="#007AFF"
+                TextColor="White"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                Margin="0,0,20,20"
+                Shadow="10" />
+    </Grid>
 </ContentPage>

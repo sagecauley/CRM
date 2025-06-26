@@ -8,9 +8,8 @@ namespace CRM
 {
     public class Customer
     {
-        public Customer(string id, string name, string email, string phone, string address, string notes, CustomerCategory category, ContactMethod preferredContactMethod)
+        public Customer(string name, string email, string phone, string address, string notes, CustomerCategory category, ContactMethod preferredContactMethod)
         {
-            Id = id;
             Name = name;
             Email = email;
             Phone = phone;
@@ -20,7 +19,6 @@ namespace CRM
             PreferredContactMethod = preferredContactMethod;
             _previousJobs = new List<Job>();
         }
-        public string Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }

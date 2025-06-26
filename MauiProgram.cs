@@ -1,4 +1,6 @@
 ﻿using CRM.Firebase;
+using CRM.Models;
+using CRM.Pages;
 using Microsoft.Extensions.Logging;
 
 namespace CRM
@@ -9,13 +11,16 @@ namespace CRM
         {
             var builder = MauiApp.CreateBuilder();
 
-            builder.Services.AddTransient<FirebaseAuthService>();
-            builder.Services.AddTransient<Controller>();
+            builder.Services.AddSingleton<FirebaseAuthService>();
+            builder.Services.AddSingleton<Controller>();
             builder.Services.AddTransient<LoginPage>();
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<CalendarPage>();
             builder.Services.AddTransient<JobsPage>();
             builder.Services.AddTransient<CustomerPage>();
+            builder.Services.AddSingleton<FirebaseFirestore>();
+            builder.Services.AddSingleton<CustomersModel>();
+            builder.Services.AddTransient<AddCustomerPage>();
 
             builder
                 .UseMauiApp<App>()
