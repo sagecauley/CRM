@@ -139,5 +139,108 @@ namespace CRM.Firebase
 
             return customers;
         }
+
+        public async Task<string> AddJobAsync(Job job)
+        {
+            var idToken = await GetAuthHeaderAsync();
+            if (string.IsNullOrEmpty(idToken))
+                return null;
+
+            var firestoreBody = FirestoreConverter.ToFirestoreFormat(job);
+            var json = JsonSerializer.Serialize(firestoreBody);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var url = $"https://firestore.googleapis.com/v1/projects/{ProjectId}/databases/(default)/documents/jobs";
+
+            var request = new HttpRequestMessage(HttpMethod.Post, url);
+            request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", idToken);
+            request.Content = content;
+
+            var response = await _httpClient.SendAsync(request);
+            if (!response.IsSuccessStatusCode) return null;
+
+            var resultJson = await response.Content.ReadAsStringAsync();
+            var doc = JsonDocument.Parse(resultJson);
+            var fullName = doc.RootElement.GetProperty("name").GetString();
+            var documentId = fullName?.Split('/').Last();
+
+            return documentId;
+        }
+
+        public async Task<bool> EditJobAsync(string docId, Job job)
+        {
+            var idToken = await GetAuthHeaderAsync();
+            if (string.IsNullOrEmpty(idToken))
+                return false;
+
+            var firestoreBody = FirestoreConverter.ToFirestoreFormat(job);
+            var json = JsonSerializer.Serialize(firestoreBody);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var url = $"https://firestore.googleapis.com/v1/projects/{ProjectId}/databases/(default)/documents/jobs/{docId}";
+
+            var request = new HttpRequestMessage(HttpMethod.Patch, url);
+            request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", idToken);
+            request.Content = content;
+
+            var response = await _httpClient.SendAsync(request);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> DeleteJobAsync(string docId)
+        {
+            var idToken = await GetAuthHeaderAsync();
+            if (string.IsNullOrEmpty(idToken))
+                return false;
+
+            var url = $"https://firestore.googleapis.com/v1/projects/{ProjectId}/databases/(default)/documents/jobs/{docId}";
+
+            var request = new HttpRequestMessage(HttpMethod.Delete, url);
+            request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", idToken);
+
+            var response = await _httpClient.SendAsync(request);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<Dictionary<string, Job>> GetAllJobsAsync()
+        {
+            var idToken = await GetAuthHeaderAsync();
+            if (string.IsNullOrEmpty(idToken))
+                return null;
+
+            var url = $"https://firestore.googleapis.com/v1/projects/{ProjectId}/databases/(default)/documents/jobs";
+
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", idToken);
+
+            var response = await _httpClient.SendAsync(request);
+            if (!response.IsSuccessStatusCode)
+                return null;
+
+            var json = await response.Content.ReadAsStringAsync();
+            using var doc = JsonDocument.Parse(json);
+
+            var jobs = new Dictionary<string, Job>();
+
+            if (!doc.RootElement.TryGetProperty("documents", out var documents))
+                return jobs;
+
+            foreach (var document in documents.EnumerateArray())
+            {
+                var fullName = document.GetProperty("name").GetString();
+                var docId = fullName?.Split('/').Last();
+
+                if (docId == null)
+                    continue;
+
+                var fields = document.GetProperty("fields");
+                var job = FirestoreConverter.FromFirestoreFormatJob(fields); // separate method
+
+                if (job != null)
+                    jobs.Add(docId, job);
+            }
+
+            return jobs;
+        }
     }
 }

@@ -45,6 +45,10 @@ namespace CRM
             return false;
         }
 
+        public async Task<bool> AddJob(Job j)
+        {
+            bool success = await _firestore.AddJobAsync(j);
+        }
         public async Task<bool> EditCustomer(string id, Customer c)
         {
             if(_customersModel.Customers.ContainsKey(id))

@@ -15,9 +15,8 @@ namespace CRM
         public decimal Cost { get; set; }
         public JobStatus Status { get; set; } // e.g., "Pending", "In Progress", "Completed"
         public Customer? Customer { get; set; } // Reference to the customer associated with this job
-        public Job(string id, string description, DateTime startDate, DateTime endDate, decimal cost, JobStatus status, Customer customer)
+        public Job(string description, DateTime startDate, DateTime endDate, decimal cost, JobStatus status, Customer customer)
         {
-            Id = id;
             Description = description;
             StartDate = startDate;
             EndDate = endDate;
