@@ -1,3 +1,5 @@
+using CRM.Models;
+using CRM.Pages;
 using System.Runtime.CompilerServices;
 
 namespace CRM;
@@ -5,13 +7,18 @@ namespace CRM;
 public partial class JobsPage : ContentPage
 {
 	private Controller c;
-    public JobsPage(Controller c)
+	private JobsModel _jobModel;
+	private CustomersModel _customerModel;
+    public JobsPage(Controller c, JobsModel jm, CustomersModel cm)
 	{
 		InitializeComponent();
 		this.c = c;
+		_jobModel = jm;
+		_customerModel = cm;
+        BindingContext = this;
 	}
-	private async Task<AsyncVoidMethodBuilder> AddJobButtonClicked(object sender, EventArgs e)
+    private void AddJobButtonClicked(object sender, EventArgs e)
 	{
-		await c.AddJob();
+        Navigation.PushAsync(new AddJobPage(c, _customerModel));
     }
 }

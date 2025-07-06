@@ -13,11 +13,13 @@ namespace CRM
         private FirebaseAuthService _auth;
         private FirebaseFirestore _firestore;
         private CustomersModel _customersModel;
-        public Controller(FirebaseAuthService authService, FirebaseFirestore ffs, CustomersModel cm)
+        private JobsModel _jobsModel;
+        public Controller(FirebaseAuthService authService, FirebaseFirestore ffs, CustomersModel cm, JobsModel jm)
         {
             _auth = authService;
             _firestore = ffs;
             _customersModel = cm;
+            _jobsModel = jm;
         }
 
         public async Task<bool> OnLogin(string username, string password)
@@ -39,6 +41,7 @@ namespace CRM
             string success = await _firestore.AddCustomerAsync(c);
             if (success != null)
             {
+                c.Id = success; // Set the ID of the customer
                 _customersModel.Customers.Add(success, c);
                 return true;
             }
@@ -47,7 +50,14 @@ namespace CRM
 
         public async Task<bool> AddJob(Job j)
         {
-            bool success = await _firestore.AddJobAsync(j);
+            string id = await _firestore.AddJobAsync(j);
+             if (id != null)
+            {
+                j.Id = id; // Set the ID of the job
+                _jobsModel.Jobs.Add(id, j);
+                return true;
+            }
+                return false;
         }
         public async Task<bool> EditCustomer(string id, Customer c)
         {

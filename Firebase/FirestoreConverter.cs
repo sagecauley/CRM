@@ -52,6 +52,7 @@ namespace CRM.Firebase
             var phone = GetString("Phone");
             var address = GetString("Address");
             var notes = GetString("Notes");
+            var id = GetString("Id");
 
             // For enum, parse string to enum
             var categoryString = GetString("Category");
@@ -63,51 +64,52 @@ namespace CRM.Firebase
             Enum.TryParse(contactString, out preferredContactMethod);
 
             // Construct Customer (use empty string or generate id if needed)
-            return new Customer(name, email, phone, address, notes, category, preferredContactMethod);
+            Customer c = new Customer(name, email, phone, address, notes, category, preferredContactMethod);
+            c.Id = id; // Set the ID after construction
+            return c;
         }
 
-        public static Dictionary<string, object> ToFirestoreFormat(Job job)
+        public static object ToFirestoreFormat(Job job)
         {
             var fields = new Dictionary<string, object>
     {
-        { "Description", new { stringValue = job.Description } },
-        { "StartDate", new { timestampValue = job.StartDate.ToString("o") } },
-        { "EndDate", new { timestampValue = job.EndDate.ToString("o") } },
-        { "Cost", new { doubleValue = (double)job.Cost } },
-        { "Status", new { stringValue = job.Status.ToString() } }
+        { "Name", new Dictionary<string, object> { { "stringValue", job.Name } } },
+        { "Description", new Dictionary<string, object> { { "stringValue", job.Description } } },
+        { "StartDate", new Dictionary<string, object> { { "timestampValue", job.StartDate.ToUniversalTime().ToString("o") } } },
+        { "Cost", new Dictionary<string, object> { { "stringValue", job.Cost } } }, // use doubleValue for decimals
+        { "Status", new Dictionary<string, object> { { "stringValue", job.Status.ToString() } } },
+        
     };
-
-            if (job.Customer != null)
+            if (!string.IsNullOrEmpty(job.Id))
             {
-                fields.Add("Customer", new
-                {
-                    mapValue = new
-                    {
-                        fields = ToFirestoreFormat(job.Customer)
-                    }
-                });
+                fields.Add("Id", new Dictionary<string, object> { { "stringValue", job.Id } });
+            }
+            if (!string.IsNullOrEmpty(job.CustomerId))
+            {
+                fields.Add("CustomerId", new Dictionary<string, object> { { "stringValue", job.CustomerId } });
             }
 
-            return fields;
+            return new { fields };
         }
 
         public static Job FromFirestoreFormatJob(JsonElement fields)
         {
+            var name = fields.GetProperty("Name").GetProperty("stringValue").GetString();
             var description = fields.GetProperty("Description").GetProperty("stringValue").GetString();
             var startDate = DateTime.Parse(fields.GetProperty("StartDate").GetProperty("timestampValue").GetString());
-            var endDate = DateTime.Parse(fields.GetProperty("EndDate").GetProperty("timestampValue").GetString());
-            var cost = (decimal)fields.GetProperty("Cost").GetProperty("doubleValue").GetDouble();
+            var cost = fields.GetProperty("Cost").GetProperty("stringValue").GetString();
             var statusStr = fields.GetProperty("Status").GetProperty("stringValue").GetString();
             var status = Enum.TryParse<JobStatus>(statusStr, out var parsedStatus) ? parsedStatus : JobStatus.Pending;
+            var id = fields.GetProperty("Id").GetProperty("stringValue").GetString();
 
-            Customer customer = null;
-            if (fields.TryGetProperty("Customer", out var customerElement))
+            string customerId = null;
+            if (fields.TryGetProperty("CustomerId", out var customerIdElement))
             {
-                var customerFields = customerElement.GetProperty("mapValue").GetProperty("fields");
-                customer = FromFirestoreFormat(customerFields);
+                customerId = customerIdElement.GetProperty("stringValue").GetString();
             }
-
-            return new Job("", description, startDate, endDate, cost, status, customer);
+            Job j = new Job(name, description, startDate, cost, status, customerId);
+            j.Id = id; // Set the ID after construction
+            return j;
         }
 
     }

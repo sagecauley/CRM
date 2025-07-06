@@ -8,21 +8,21 @@ namespace CRM
 {
     public class Job
     {
-        public string Id { get; set; }
+        public string Id { get; set; } = null;
+        public string Name { get; set; }
         public string Description { get; set; }
         public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public decimal Cost { get; set; }
+        public string Cost { get; set; } = "0";
         public JobStatus Status { get; set; } // e.g., "Pending", "In Progress", "Completed"
-        public Customer? Customer { get; set; } // Reference to the customer associated with this job
-        public Job(string description, DateTime startDate, DateTime endDate, decimal cost, JobStatus status, Customer customer)
+        public string CustomerId{get; set; } // Reference to the customer associated with this job
+        public Job(string name, string description, DateTime startDate, string cost, JobStatus status, string customer)
         {
+            Name = name;
             Description = description;
             StartDate = startDate;
-            EndDate = endDate;
             Cost = cost;
             Status = status;
-            Customer = customer;
+            CustomerId = customer;
         }
     }
 }

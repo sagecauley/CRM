@@ -20,6 +20,7 @@ namespace CRM
             builder.Services.AddTransient<CustomerPage>();
             builder.Services.AddSingleton<FirebaseFirestore>();
             builder.Services.AddSingleton<CustomersModel>();
+            builder.Services.AddSingleton<JobsModel>();
             builder.Services.AddTransient<AddCustomerPage>();
 
             builder

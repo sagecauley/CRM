@@ -52,12 +52,8 @@ namespace CRM.Firebase
             var fullName = doc.RootElement.GetProperty("name").GetString();
             var documentId = fullName?.Split('/').Last();
 
-            if (documentId != null)
-            {       
-                return documentId;
-            }
 
-            return null;
+            return documentId;
         }
 
         public async Task<bool> EditCustomerAsync(string docId, Customer customer)
@@ -134,6 +130,7 @@ namespace CRM.Firebase
                 var customer = FirestoreConverter.FromFirestoreFormat(fields);
 
                 if (customer != null)
+                    customer.Id = docId;
                     customers.Add(docId, customer);
             }
 

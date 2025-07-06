@@ -27,6 +27,8 @@ namespace CRM
         public CustomerCategory Category { get; set; }
         public ContactMethod PreferredContactMethod { get; set; }
 
+        public string Id { get; set; }
+
         private List<Job> _previousJobs;
         public IReadOnlyList<Job> PreviousJobs => _previousJobs.AsReadOnly();
 

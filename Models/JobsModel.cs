@@ -10,7 +10,7 @@ namespace CRM.Models
     {
         public JobsModel() { }
 
-        public Dictionary<string, Job> Jobs;
+        public Dictionary<string, Job> Jobs = new();
 
     }
 }
