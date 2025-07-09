@@ -2,6 +2,7 @@
 using CRM.Models;
 using CRM.Pages;
 using Microsoft.Extensions.Logging;
+using Syncfusion.Maui.Core.Hosting;
 
 namespace CRM
 {
@@ -9,6 +10,7 @@ namespace CRM
     {
         public static MauiApp CreateMauiApp()
         {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1JEaF5cXmRCeUx3Rnxbf1x1ZFxMZFxbR3ZPIiBoS35Rc0VkWXlccXBVRWBUWEZwVEFd");
             var builder = MauiApp.CreateBuilder();
 
             builder.Services.AddSingleton<FirebaseAuthService>();
@@ -25,14 +27,15 @@ namespace CRM
 
             builder
                 .UseMauiApp<App>()
+                .ConfigureSyncfusionCore()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
-
+            
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();

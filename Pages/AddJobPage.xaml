@@ -30,13 +30,13 @@ VerticalOptions="Center"
 HorizontalOptions="FillAndExpand"/>
         <DatePicker
     x:Name="JobDatePicker"
-    Date="{Binding JobDate, Mode=TwoWay}"
+    Date="{Binding StartJobDate, Mode=TwoWay}"
     MinimumDate="2000-01-01"
     MaximumDate="2100-12-31"
     Format="dddd, MMMM dd, yyyy" />
         <TimePicker
     x:Name="JobTimePicker"
-    Time="{Binding JobTime, Mode=TwoWay}" />
+    Time="{Binding StartJobTime, Mode=TwoWay}" />
         <Picker
 x:Name="preferredContactMethod"
 Title="Preferred Contact Method"

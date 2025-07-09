@@ -1,7 +1,7 @@
 namespace CRM.Pages;
 using CRM.Models;
 
-public partial class AddCustomerPage : ContentPage
+public partial class AddCustomerPage : ContentPage 
 {
     private Controller c;
     private CustomersModel cm;
