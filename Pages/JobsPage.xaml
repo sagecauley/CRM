@@ -6,10 +6,10 @@
              Title="JobsPage">
 
     <Grid RowDefinitions="*,Auto">
-        <syncfusion:SfScheduler x:Name="JobsScheduler" View="Month">
-            <syncfusion:SfScheduler.MonthView>
-                <syncfusion:SchedulerMonthView DayTextColor="Black" />
-            </syncfusion:SfScheduler.MonthView>
+        <syncfusion:SfScheduler x:Name="JobsScheduler"
+                        ShowAllowedViews="True"
+                        BackgroundColor="White">
+
         </syncfusion:SfScheduler>
 
         <Button Text="Add"  

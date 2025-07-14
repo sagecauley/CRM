@@ -20,9 +20,9 @@ public partial class JobsPage : ContentPage
 		_jobModel = jm;
 		_customerModel = cm;
 
-        JobsScheduler.View = SchedulerView.Month;
+        JobsScheduler.View = SchedulerView.Week;
 
-        //LoadAppointments();
+        LoadAppointments();
         BindingContext = this;
 
 	}
