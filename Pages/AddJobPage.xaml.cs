@@ -34,11 +34,19 @@ public partial class AddJobPage : ContentPage
 		Navigation.PopAsync();
     }
 
-	private void AddJobButtonClicked(object sender, EventArgs e)
+	private async void AddJobButtonClicked(object sender, EventArgs e)
 	{
 		DateTime jobDateTime = StartJobDate.Date + StartJobTime;
-		Job job = new Job(jobNameEntry.Text, jobDescriptionEntry.Text,jobDateTime, jobCostEntry.Text, SelectedJobStatus, SelectedCustomer.Id);
-		c.AddJob(job);
-        Navigation.PopAsync();
+		Job job = new Job(jobNameEntry.Text, jobDescriptionEntry.Text, jobDateTime, jobCostEntry.Text, SelectedJobStatus, SelectedCustomer.Id);
+		bool success = await c.AddJob(job);
+		if (success)
+		{
+			DisplayAlert("Success", "Job added successfully.", "OK");
+			Navigation.PopAsync();
+		}
+		else
+		{
+			await DisplayAlert("Error", "Failed to add job.", "OK");
+		}
 	}
 }

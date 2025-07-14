@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CRM.ViewJobPage"
+             Title="ViewJobPage">
+    <VerticalStackLayout>
+        <Label 
+            Text="Welcome to Job Page"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+        <Button
+        x:Name="BackButton"
+        Text="Back"
+        Clicked="BackButtonClicked"/>
+        <Entry
+        x:Name="jobNameEntry"
+        Placeholder="Job Name"
+        VerticalOptions="Center"
+        HorizontalOptions="FillAndExpand"/>
+        <Entry
+x:Name="jobDescriptionEntry"
+Placeholder="Job Description"
+VerticalOptions="Center"
+HorizontalOptions="FillAndExpand"/>
+        <Entry
+x:Name="jobCostEntry"
+Placeholder="Cost"
+Keyboard="Numeric"
+VerticalOptions="Center"
+HorizontalOptions="FillAndExpand"/>
+        <DatePicker
+    x:Name="JobDatePicker"
+    Date="{Binding StartJobDate, Mode=TwoWay}"
+    MinimumDate="2000-01-01"
+    MaximumDate="2100-12-31"
+    Format="dddd, MMMM dd, yyyy" />
+        <TimePicker
+    x:Name="JobTimePicker"
+    Time="{Binding StartJobTime, Mode=TwoWay}" />
+        <Picker
+x:Name="preferredContactMethod"
+Title="Preferred Contact Method"
+ItemsSource="{Binding JobStatus}"
+SelectedItem="{Binding SelectedJobStatus, Mode=TwoWay}"/>
+        <Picker
+    x:Name="customerPicker"
+    Title="Select Customer"
+    ItemsSource="{Binding Customers}" 
+    ItemDisplayBinding="{Binding Name}"
+    SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}" />
+        <Button
+Text="Edit Job"
+Clicked="EditJobButtonClicked"
+VerticalOptions="Center"
+HorizontalOptions="Center"/>
+        <Button
+Text="Delete Job"
+Clicked="DeleteJobButtonClicked"
+VerticalOptions="Center"
+HorizontalOptions="Center"/>
+    </VerticalStackLayout>
+</ContentPage>

@@ -72,13 +72,35 @@ namespace CRM
             }
             return false;
         }
-
+        public async Task<bool> EditJob(string id, Job j)
+        {
+            if (_jobsModel.Jobs.ContainsKey(id))
+            {
+                bool success = await _firestore.EditJobAsync(id, j);
+                if (success)
+                {
+                    _jobsModel.Jobs[id] = j; // Update the job in the model
+                    return true;
+                }
+            }
+            return false;
+        }
         public async Task<bool> DeleteCustomer(string iD)
         {
             bool success = await _firestore.DeleteCustomerAsync(iD);
             if (success)
             {
-                
+                _customersModel.Customers.Remove(iD);
+                return true;
+            }
+            return false;
+        }
+        public async Task<bool> DeleteJob(string iD)
+        {
+            bool success = await _firestore.DeleteJobAsync(iD);
+            if (success)
+            {
+                _jobsModel.Jobs.Remove(iD);
                 return true;
             }
             return false;

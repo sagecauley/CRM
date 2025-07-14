@@ -22,13 +22,13 @@ public partial class JobsPage : ContentPage
 
         JobsScheduler.View = SchedulerView.Week;
 
-        LoadAppointments();
         BindingContext = this;
 
 	}
-    private void AddJobButtonClicked(object sender, EventArgs e)
+    private async void AddJobButtonClicked(object sender, EventArgs e)
 	{
-        Navigation.PushAsync(new AddJobPage(c, _customerModel));
+        AddJobPage addJobPage = new AddJobPage(c, _customerModel);
+        await Navigation.PushAsync(addJobPage);
     }
 
 
@@ -44,10 +44,33 @@ public partial class JobsPage : ContentPage
                 EndTime = job.StartDate.AddHours(1),
                 Subject = job.Name,
                 Notes = job.Description,
+                Id = job.Id,
                 IsAllDay = false
             });
         }
 
         JobsScheduler.AppointmentsSource = appointments;
+    }
+
+    private async void OnAppointmentTapped(object sender, SchedulerTappedEventArgs e)
+    {
+        if (e.Appointments != null)
+        {
+            if (e.Appointments[0] is SchedulerAppointment appointment)
+            {
+                {
+                    if (appointment.Id is string id)
+                    {
+                        await Navigation.PushAsync(new ViewJobPage(id, c, _customerModel, _jobModel));
+                    }
+                }
+            }
+        }
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        LoadAppointments();
     }
 }

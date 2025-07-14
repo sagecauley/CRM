@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
-             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Scheduler;assembly=Syncfusion.Maui.Scheduler"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Scheduler;assembly=Syncfusion.Maui.Scheduler"  
              x:Class="CRM.JobsPage"  
-             Title="JobsPage">
+             Title="JobsPage">  
 
-    <Grid RowDefinitions="*,Auto">
-        <syncfusion:SfScheduler x:Name="JobsScheduler"
-                        ShowAllowedViews="True"
-                        BackgroundColor="White">
-
-        </syncfusion:SfScheduler>
+    <Grid RowDefinitions="*,Auto">  
+        <syncfusion:SfScheduler x:Name="JobsScheduler"  
+                                 ShowAllowedViews="True"  
+                                 BackgroundColor="White"  
+                                 Tapped="OnAppointmentTapped" />  
 
         <Button Text="Add"  
                 Clicked="AddJobButtonClicked"  
