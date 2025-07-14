@@ -10,7 +10,7 @@ namespace CRM
     {
         public static MauiApp CreateMauiApp()
         {
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1JEaF5cXmRCeUx3Rnxbf1x1ZFxMZFxbR3ZPIiBoS35Rc0VkWXlccXBVRWBUWEZwVEFd");
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Mzk1MTA4MEAzMzMwMmUzMDJlMzAzYjMzMzAzYmhHQXBueGNiS0NUS2pJRW1Ld2ZMc3I4THV0dks3Y2I3azRCNXFZRGhrVDg9");
             var builder = MauiApp.CreateBuilder();
 
             builder.Services.AddSingleton<FirebaseAuthService>();

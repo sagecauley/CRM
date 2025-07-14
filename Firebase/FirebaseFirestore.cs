@@ -232,7 +232,7 @@ namespace CRM.Firebase
 
                 var fields = document.GetProperty("fields");
                 var job = FirestoreConverter.FromFirestoreFormatJob(fields); // separate method
-
+                job.Id = docId;
                 if (job != null)
                     jobs.Add(docId, job);
             }

@@ -98,6 +98,17 @@ namespace CRM
                 _customersModel.Customers.Add(kvp.Key, kvp.Value);
             }
 
+            var jobs = await _firestore.GetAllJobsAsync();
+
+            if (jobs == null)
+                return false;
+
+            _jobsModel.Jobs.Clear();
+
+            foreach (var kvp in jobs)
+            {
+                _jobsModel.Jobs.Add(kvp.Key, kvp.Value);
+            }
             return true;
         }
 

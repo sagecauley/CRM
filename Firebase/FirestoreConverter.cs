@@ -100,7 +100,6 @@ namespace CRM.Firebase
             var cost = fields.GetProperty("Cost").GetProperty("stringValue").GetString();
             var statusStr = fields.GetProperty("Status").GetProperty("stringValue").GetString();
             var status = Enum.TryParse<JobStatus>(statusStr, out var parsedStatus) ? parsedStatus : JobStatus.Pending;
-            var id = fields.GetProperty("Id").GetProperty("stringValue").GetString();
 
             string customerId = null;
             if (fields.TryGetProperty("CustomerId", out var customerIdElement))
@@ -108,7 +107,6 @@ namespace CRM.Firebase
                 customerId = customerIdElement.GetProperty("stringValue").GetString();
             }
             Job j = new Job(name, description, startDate, cost, status, customerId);
-            j.Id = id; // Set the ID after construction
             return j;
         }
 
